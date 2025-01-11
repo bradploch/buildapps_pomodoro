@@ -2,6 +2,7 @@ let timeLeft = 45 * 60; // 45 minutes in seconds
 let timerId = null;
 let isWorkTime = true;
 let sessionStartTime = null;
+let totalTimeTracked = 0;
 
 const minutesDisplay = document.getElementById('minutes');
 const secondsDisplay = document.getElementById('seconds');
@@ -33,7 +34,40 @@ function formatTime(totalSeconds) {
     }
 }
 
+function formatTotalTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    
+    if (hours > 0) {
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function updateTotalTimeDisplay() {
+    const totalTimeDisplay = document.getElementById('total-time') || (() => {
+        const container = document.createElement('div');
+        container.id = 'total-time';
+        container.style.cssText = `
+            color: #fff;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(138, 43, 226, 0.2);
+            padding-top: 1rem;
+        `;
+        document.querySelector('.container').appendChild(container);
+        return container;
+    })();
+    
+    totalTimeDisplay.textContent = `Current Session Length: ${formatTotalTime(totalTimeTracked)}`;
+}
+
 function createLogEntry(type, focusTask = '', duration) {
+    totalTimeTracked += duration;
+    updateTotalTimeDisplay();
+    
     const logContainer = document.getElementById('session-log') || (() => {
         const container = document.createElement('div');
         container.id = 'session-log';
@@ -104,6 +138,7 @@ function createCustomPrompt() {
         const input = document.createElement('input');
         input.style.cssText = `
             width: 100%;
+            box-sizing: border-box;
             padding: 0.75rem;
             margin-bottom: 1.5rem;
             border: 1px solid rgba(138, 43, 226, 0.3);
@@ -112,6 +147,11 @@ function createCustomPrompt() {
             color: white;
             font-size: 1rem;
             outline: none;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         `;
         input.placeholder = 'Enter your focus task...';
 
