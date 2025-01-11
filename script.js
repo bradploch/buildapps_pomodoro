@@ -53,6 +53,7 @@ function resetTimer() {
 }
 
 function setWorkMode() {
+    console.log('Work mode activated'); // Debug log
     isWorkTime = true;
     timeLeft = 45 * 60;
     workModeBtn.classList.add('active');
@@ -62,6 +63,7 @@ function setWorkMode() {
 }
 
 function setRestMode() {
+    console.log('Rest mode activated'); // Debug log
     isWorkTime = false;
     timeLeft = 10 * 60;
     restModeBtn.classList.add('active');
