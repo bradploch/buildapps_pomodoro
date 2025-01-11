@@ -9,6 +9,7 @@ const resetButton = document.getElementById('reset');
 const modeText = document.getElementById('mode-text');
 const workModeBtn = document.getElementById('work-mode');
 const restModeBtn = document.getElementById('rest-mode');
+const heading = document.getElementById('main-heading');
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -56,6 +57,7 @@ function setWorkMode() {
     timeLeft = 45 * 60;
     workModeBtn.classList.add('active');
     restModeBtn.classList.remove('active');
+    heading.textContent = 'WORK HARDER';
     updateDisplay();
 }
 
@@ -64,6 +66,7 @@ function setRestMode() {
     timeLeft = 10 * 60;
     restModeBtn.classList.add('active');
     workModeBtn.classList.remove('active');
+    heading.textContent = 'Enjoy your Rest 💆';
     updateDisplay();
 }
 
